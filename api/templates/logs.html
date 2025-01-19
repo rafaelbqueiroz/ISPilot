@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logs da Aplicação</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Logs da Aplicação</h1>
+        <ul class="log-list">
+            {% for log in logs %}
+            <li class="log-item">
+                <span class="log-timestamp">{{ log.timestamp }}</span>
+                <span class="log-level log-level-{{ log.level.lower() }}">{{ log.level }}</span>
+                <span class="log-message">{{ log.message }}</span>
+                {% if log.thread_id %}
+                    <span class="log-thread">Thread ID: {{ log.thread_id }}</span>
+                {% endif %}
+                {% if log.response %}
+                    <div class="log-response">
+                        <pre>{{ log.response | tojson(indent=4) }}</pre>
+                    </div>
+                {% endif %}
+            </li>
+            <hr>
+            {% endfor %}
+        </ul>
+        <a href="/" class="back-button">Voltar para o Painel</a>
+    </div>
+</body>
+</html>
